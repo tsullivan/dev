@@ -2,7 +2,7 @@ version: '2.2'
 
 services:
   elasticsearch:
-    image: "docker.elastic.co/elasticsearch/elasticsearch:7.0.0-SNAPSHOT"
+    image: "docker.elastic.co/elasticsearch/elasticsearch:8.0.0-SNAPSHOT"
     ulimits:
       memlock:
         soft: -1
@@ -20,7 +20,7 @@ services:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     volumes:
       - "./cert-bundle:$ES_CERTS_DIR"
-      - "esdata-7.0:/usr/share/elasticsearch/data"
+      - "esdata-8.0:/usr/share/elasticsearch/data"
     networks: ["esnet"]
 
   elasticsearch-proxy:
@@ -31,7 +31,7 @@ services:
     ports: ["9200:9200"]
 
 volumes:
-  esdata-7.0:
+  esdata-8.0:
     driver: "local"
 
 networks:
