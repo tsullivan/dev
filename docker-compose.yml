@@ -19,7 +19,7 @@ services:
       - "bootstrap.memory_lock=true"
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     volumes:
-      - "./cert-bundle-spicylocal:$ES_CERTS_DIR"
+      - "./cert-bundle/spicy.local:$ES_CERTS_DIR"
       - "esdata-8.0:/usr/share/elasticsearch/data"
     networks: ["esnet"]
 
@@ -34,7 +34,7 @@ services:
     image: "nginx:latest"
     env_file: [".env"]
     volumes:
-      - "./cert-bundle-spicylocal:$NGINX_CERTS_DIR"
+      - "./cert-bundle:$NGINX_CERTS_DIR"
       - "./nginx/web.conf:/etc/nginx/conf.d/web.conf:ro"
       - "./nginx/html:/etc/nginx/html:ro"
     ports: ["443:8080"]
@@ -50,7 +50,7 @@ services:
       - "METRICBEAT_KBN_SETUP_USERNAME=$METRICBEAT_KBN_SETUP_USERNAME"
       - "METRICBEAT_KBN_SETUP_PASSWORD=$METRICBEAT_KBN_SETUP_PASSWORD"
     volumes:
-      - "./cert-bundle-spicylocal:$METRICBEAT_CERTS_DIR"
+      - "./cert-bundle/spicy.local:$METRICBEAT_CERTS_DIR"
       - "./metricbeat/config:/usr/share/metricbeat/config:ro"
       - "./metricbeat/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml:ro"
       - "/var/run/docker.sock:/var/run/docker.sock"
