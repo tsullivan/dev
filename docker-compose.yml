@@ -13,20 +13,25 @@ services:
       - "cluster.name=dev-docker-cluster"
       - "xpack.license.self_generated.type=trial"
       - "xpack.security.enabled=true"
-      - "xpack.security.http.ssl.enabled=false"
+      - "xpack.security.http.ssl.enabled=true"
+      - "xpack.security.http.ssl.key=$ES_CERTS_DIR/$DEV_HOSTNAME/$DEV_HOSTNAME.key"
+      - "xpack.security.http.ssl.certificate=$ES_CERTS_DIR/$DEV_HOSTNAME/$DEV_HOSTNAME.crt"
+      - "xpack.security.http.ssl.certificate_authorities=$ES_CERTS_DIR/ca.crt"
       - "xpack.security.transport.ssl.enabled=false"
       - "xpack.security.transport.ssl.verification_mode=none"
       - "bootstrap.memory_lock=true"
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     volumes:
-      - "./cert-bundle/$DEV_HOSTNAME:$ES_CERTS_DIR"
+      - "./cert-bundle:$ES_CERTS_DIR"
       - "esdata-8.0:/usr/share/elasticsearch/data"
     networks: ["esnet"]
 
   elasticsearch-proxy:
     image: "nginx:latest"
     env_file: [".env"]
-    volumes: ["./nginx/es.conf:/etc/nginx/conf.d/es.conf:ro"]
+    volumes:
+      - "./cert-bundle:$NGINX_CERTS_DIR"
+      - "./nginx/es.conf:/etc/nginx/conf.d/es.conf:ro"
     networks: ["esnet"]
     ports: ["9200:9200"]
 
