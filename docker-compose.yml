@@ -12,7 +12,7 @@ services:
       - "discovery.type=single-node"
       - "cluster.name=dev-docker-cluster"
       - "xpack.license.self_generated.type=trial"
-      - "xpack.security.enabled=true"
+      - "xpack.security.enabled=false"
       - "xpack.security.http.ssl.enabled=true"
       - "xpack.security.http.ssl.key=$ES_CERTS_DIR/$DEV_HOSTNAME/$DEV_HOSTNAME.key"
       - "xpack.security.http.ssl.certificate=$ES_CERTS_DIR/$DEV_HOSTNAME/$DEV_HOSTNAME.crt"
