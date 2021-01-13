@@ -26,7 +26,7 @@ services:
       - "esdata-8.0:/usr/share/elasticsearch/data"
     networks: ["esnet"]
 
-  elasticsearch-proxy:
+  es-proxy:
     image: "nginx:latest"
     env_file: [".env"]
     volumes:
@@ -43,9 +43,12 @@ services:
       - "./nginx/web.conf:/etc/nginx/conf.d/web.conf:ro"
       - "./nginx/html:/etc/nginx/html:ro"
     ports: ["443:8080"]
+    extra_hosts:
+      - "paninix:172.17.0.1"
 
   metricbeat:
     image: "docker.elastic.co/beats/metricbeat:8.0.0-SNAPSHOT"
+    build: "metricbeat"
     user: "root"
     env_file: [".env"]
     environment:
@@ -55,10 +58,11 @@ services:
       - "METRICBEAT_KBN_SETUP_USERNAME=$METRICBEAT_KBN_SETUP_USERNAME"
       - "METRICBEAT_KBN_SETUP_PASSWORD=$METRICBEAT_KBN_SETUP_PASSWORD"
     volumes:
-      - "./cert-bundle/$DEV_HOSTNAME:$METRICBEAT_CERTS_DIR"
-      - "./metricbeat/config:/usr/share/metricbeat/config:ro"
-      - "./metricbeat/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml:ro"
+      - "./cert-bundle:$METRICBEAT_CERTS_DIR"
+      - "./metricbeat/config:/usr/share/metricbeat/config"
       - "/var/run/docker.sock:/var/run/docker.sock"
+    extra_hosts:
+      - "paninix:172.17.0.1"
     networks: ["esnet"]
 
 volumes:
