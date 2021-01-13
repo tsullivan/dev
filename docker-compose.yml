@@ -1,8 +1,13 @@
+# Set user passwords:
+# [root@06306b40d436 elasticsearch]# ./bin/elasticsearch-setup-passwords interactive \
+# -u https://localhost:9200 \
+# -Expack.security.http.ssl.certificate_authorities=$ES_CERTS_DIR/ca/ca.crt
+
 version: '2.2'
 
 services:
   elasticsearch:
-    image: "docker.elastic.co/elasticsearch/elasticsearch:8.0.0-SNAPSHOT"
+    image: "docker.elastic.co/elasticsearch/elasticsearch:6.8.13"
     ulimits:
       memlock:
         soft: -1
@@ -23,7 +28,7 @@ services:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     volumes:
       - "./cert-bundle:$ES_CERTS_DIR"
-      - "esdata-8.0:/usr/share/elasticsearch/data"
+      - "esdata-6.8:/usr/share/elasticsearch/data"
     networks: ["esnet"]
 
   elasticsearch-proxy:
@@ -44,25 +49,8 @@ services:
       - "./nginx/html:/etc/nginx/html:ro"
     ports: ["443:8080"]
 
-  metricbeat:
-    image: "docker.elastic.co/beats/metricbeat:8.0.0-SNAPSHOT"
-    user: "root"
-    env_file: [".env"]
-    environment:
-      - "DOCKER_HOST=unix:///var/run/docker.sock"
-      - "ELASTICSEARCH_URL=$ELASTICSEARCH_HOSTS"
-      - "ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES=$METRICBEAT_CERTS_DIR/ca/ca.crt"
-      - "METRICBEAT_KBN_SETUP_USERNAME=$METRICBEAT_KBN_SETUP_USERNAME"
-      - "METRICBEAT_KBN_SETUP_PASSWORD=$METRICBEAT_KBN_SETUP_PASSWORD"
-    volumes:
-      - "./cert-bundle/$DEV_HOSTNAME:$METRICBEAT_CERTS_DIR"
-      - "./metricbeat/config:/usr/share/metricbeat/config:ro"
-      - "./metricbeat/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml:ro"
-      - "/var/run/docker.sock:/var/run/docker.sock"
-    networks: ["esnet"]
-
 volumes:
-  esdata-8.0:
+  esdata-6.8:
     driver: "local"
 
 networks:
