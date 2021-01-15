@@ -47,8 +47,9 @@ services:
       - "paninix:172.17.0.1"
 
   metricbeat:
-    image: "docker.elastic.co/beats/metricbeat:8.0.0-SNAPSHOT"
-    build: "metricbeat"
+    build:
+      context: "metricbeat"
+    image: "dev_metricbeat_custom:8.0.0"
     user: "root"
     env_file: [".env"]
     environment:
@@ -59,7 +60,10 @@ services:
       - "METRICBEAT_KBN_SETUP_PASSWORD=$METRICBEAT_KBN_SETUP_PASSWORD"
     volumes:
       - "./cert-bundle:$METRICBEAT_CERTS_DIR"
+      - "/:/hostfs:ro"
       - "./metricbeat/config:/usr/share/metricbeat/config"
+      - "/proc:/hostfs/proc:ro"
+      - "/sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro"
       - "/var/run/docker.sock:/var/run/docker.sock"
     extra_hosts:
       - "paninix:172.17.0.1"

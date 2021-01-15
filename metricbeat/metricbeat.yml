@@ -20,7 +20,8 @@ metricbeat.modules:
 - module: kibana
   metricsets: ["stats"]
   period: 10s
-  hosts: ["https://paninix:443/dev"]
+  hosts: ["https://paninix:443"]
+  basepath: "/dev"
   username: "${METRICBEAT_KBN_SETUP_USERNAME}"
   password: "${METRICBEAT_KBN_SETUP_PASSWORD}"
   ssl.certificate_authorities: ["${METRICBEAT_CERTS_DIR}/ca/ca.crt"]
@@ -43,8 +44,8 @@ metricbeat.modules:
     - node_stats
     - index
     #- index_recovery
-    - index_summary
-    - shard
+    #- index_summary
+    #- shard
     #- ml_job
   period: 10s
   hosts: ["${ELASTICSEARCH_URL}"]
@@ -53,7 +54,7 @@ metricbeat.modules:
   ssl.certificate_authorities: ["${METRICBEAT_CERTS_DIR}/ca/ca.crt"]
 
   #index_recovery.active_only: true
-  xpack.enabled: true
+  #xpack.enabled: true
   #scope: node
   enabled: true
 
