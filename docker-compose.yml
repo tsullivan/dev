@@ -35,17 +35,6 @@ services:
     networks: ["esnet"]
     ports: ["9200:9200"]
 
-  web:
-    image: "nginx:latest"
-    env_file: [".env"]
-    volumes:
-      - "./cert-bundle:$NGINX_CERTS_DIR"
-      - "./nginx/web.conf:/etc/nginx/conf.d/web.conf:ro"
-      - "./nginx/html:/etc/nginx/html:ro"
-    ports: ["443:8080"]
-    extra_hosts:
-      - "paninix:172.17.0.1"
-
   metricbeat:
     build:
       context: "metricbeat"
