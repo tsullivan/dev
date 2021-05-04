@@ -3,3 +3,5 @@ cert-bundle
 cert-bundle-spicylocal
 kibana/canvas-extras*.zip
 kibana/kibana-canvas*.zip
+
+apm-server-7.*

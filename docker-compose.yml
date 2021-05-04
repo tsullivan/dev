@@ -1,4 +1,4 @@
-version: '2.2'
+version: '3.2'
 
 services:
   elasticsearch:
@@ -44,10 +44,6 @@ services:
     env_file: [".env"]
     environment:
       - "DOCKER_HOST=unix:///var/run/docker.sock"
-      - "ELASTICSEARCH_URL=$ELASTICSEARCH_HOSTS"
-      - "ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES=$METRICBEAT_CERTS_DIR/ca/ca.crt"
-      - "METRICBEAT_KBN_SETUP_USERNAME=$METRICBEAT_KBN_SETUP_USERNAME"
-      - "METRICBEAT_KBN_SETUP_PASSWORD=$METRICBEAT_KBN_SETUP_PASSWORD"
     volumes:
       - "./cert-bundle:$METRICBEAT_CERTS_DIR"
       - "/:/hostfs:ro"
@@ -58,6 +54,15 @@ services:
     extra_hosts:
       - "paninix:172.17.0.1"
     networks: ["esnet"]
+
+  apm-server:
+    build:
+      context: "apm-server"
+    image: "dev_apmserver_custom:8.0.0"
+    env_file: [".env"]
+    volumes: ["./cert-bundle:$APM_CERTS_DIR"]
+    networks: ["esnet"]
+    ports: ["8200:8200"]
 
 volumes:
   esdata-8.0:
