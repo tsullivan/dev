@@ -9,6 +9,7 @@ services:
         hard: -1
     env_file: [".env"]
     environment:
+      - "network.host=elasticsearch"
       - "discovery.type=single-node"
       - "cluster.name=dev-docker-cluster"
       - "xpack.license.self_generated.type=trial"
