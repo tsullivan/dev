@@ -5,3 +5,5 @@ kibana/canvas-extras*.zip
 kibana/kibana-canvas*.zip
 
 apm-server-7.*
+
+*.log
