@@ -18,8 +18,6 @@ services:
       - "xpack.security.http.ssl.key=$ES_CERTS_DIR/$DEV_HOSTNAME/$DEV_HOSTNAME.key"
       - "xpack.security.http.ssl.certificate=$ES_CERTS_DIR/$DEV_HOSTNAME/$DEV_HOSTNAME.crt"
       - "xpack.security.http.ssl.certificate_authorities=$ES_CERTS_DIR/ca/ca.crt"
-      - "xpack.security.transport.ssl.enabled=false"
-      - "xpack.security.transport.ssl.verification_mode=none"
       - "xpack.security.authc.api_key.enabled=true"
       - "bootstrap.memory_lock=true"
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
