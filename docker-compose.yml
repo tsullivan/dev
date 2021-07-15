@@ -15,14 +15,14 @@ services:
       - "xpack.license.self_generated.type=trial"
       - "xpack.security.enabled=true"
       - "xpack.security.http.ssl.enabled=true"
-      - "xpack.security.http.ssl.key=$ES_CERTS_DIR/$DEV_HOSTNAME/$DEV_HOSTNAME.key"
-      - "xpack.security.http.ssl.certificate=$ES_CERTS_DIR/$DEV_HOSTNAME/$DEV_HOSTNAME.crt"
-      - "xpack.security.http.ssl.certificate_authorities=$ES_CERTS_DIR/ca/ca.crt"
+      - "xpack.security.http.ssl.key=$ELASTICSEARCH_CERTS_DIR/$DEV_HOSTNAME/$DEV_HOSTNAME.key"
+      - "xpack.security.http.ssl.certificate=$ELASTICSEARCH_CERTS_DIR/$DEV_HOSTNAME/$DEV_HOSTNAME.crt"
+      - "xpack.security.http.ssl.certificate_authorities=$ELASTICSEARCH_CERTS_DIR/ca/ca.crt"
       - "xpack.security.authc.api_key.enabled=true"
       - "bootstrap.memory_lock=true"
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     volumes:
-      - "./cert-bundle:$ES_CERTS_DIR"
+      - "./cert-bundle:$ELASTICSEARCH_CERTS_DIR"
       - "esdata-8.0:/usr/share/elasticsearch/data"
     networks: ["esnet"]
 
