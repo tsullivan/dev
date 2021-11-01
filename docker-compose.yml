@@ -2,7 +2,7 @@ version: '3.2'
 
 services:
   elasticsearch:
-    image: "docker.elastic.co/elasticsearch/elasticsearch:8.0.0-SNAPSHOT"
+    image: "docker.elastic.co/elasticsearch/elasticsearch:8.1.0-SNAPSHOT"
     ulimits:
       memlock:
         soft: -1
@@ -23,7 +23,7 @@ services:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     volumes:
       - "./cert-bundle:$ELASTICSEARCH_CERTS_DIR"
-      - "esdata-8.0:/usr/share/elasticsearch/data"
+      - "esdata-8.1:/usr/share/elasticsearch/data"
     networks: ["esnet"]
 
   es-proxy:
@@ -38,7 +38,7 @@ services:
   metricbeat:
     build:
       context: "metricbeat"
-    image: "dev_metricbeat_custom:8.0.0"
+    image: "dev_metricbeat_custom:8.1.0"
     user: "root"
     env_file: [".env"]
     environment:
@@ -57,14 +57,14 @@ services:
   apm-server:
     build:
       context: "apm-server"
-    image: "dev_apmserver_custom:8.0.0"
+    image: "dev_apmserver_custom:8.1.0"
     env_file: [".env"]
     volumes: ["./cert-bundle:$APM_CERTS_DIR"]
     networks: ["esnet"]
     ports: ["8200:8200"]
 
 volumes:
-  esdata-8.0:
+  esdata-8.1:
     driver: "local"
 
 networks:
